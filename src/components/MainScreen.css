@@ -21,13 +21,24 @@
     animation: bounce 1s infinite alternate;
 }
 
-@keyframes bounce {
+.arrow {
+    position: absolute;
+    bottom: 82px;
+    right: 100px;
+}
+
+.arrow-icon {
+    width: 80px;
+    animation: diagonal 1s infinite alternate;
+}
+
+@keyframes diagonal {
     from {
-        transform: translateY(0) rotate(45deg);
+        transform: translate(5px, 5px) rotate(15deg)
     }
 
     to {
-        transform: translateY(10px) rotate(45deg);
+        transform: translate(20px, 20px) rotate(10deg);
     }
 }
 
