@@ -1,0 +1,47 @@
+.main-screen {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-state {
+    text-align: center;
+}
+
+.empty-state .message {
+    font-size: 18px;
+    color: #555;
+}
+
+.empty-state .arrow {
+    font-size: 48px;
+    margin-top: 16px;
+    animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0) rotate(45deg);
+    }
+
+    to {
+        transform: translateY(10px) rotate(45deg);
+    }
+}
+
+.create-button {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #1976d2;
+    color: #fff;
+    font-size: 32px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
