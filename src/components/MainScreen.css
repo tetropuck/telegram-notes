@@ -56,3 +56,48 @@
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
+
+.notes-list {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    bottom: 100px;
+    overflow-y: auto;
+}
+
+.note-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+    position: relative;
+}
+
+.note-menu {
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    background: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-menu button {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.delete-icon {
+    margin-right: 4px;
+    font-size: 16px;
+}
