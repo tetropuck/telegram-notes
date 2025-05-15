@@ -54,7 +54,12 @@ const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
           ))}
         </div>
       )}
-      <button className="create-button" onClick={onCreate}>+</button>
+      <button
+        className={`create-button${expandedIndex !== null ? ' hidden' : ''}`}
+        onClick={onCreate}
+      >
+        +
+      </button>
     </div>
   );
 };

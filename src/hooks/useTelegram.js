@@ -4,10 +4,14 @@ const useTelegram = () => {
     const [tg, setTg] = useState(null);
 
     useEffect(() => {
-        const telegram = window.Telegram.WebApp;
-        telegram.ready();
-        telegram.expand();
-        setTg(telegram);
+        if (window.Telegram && window.Telegram.WebApp) {
+            const telegram = window.Telegram.WebApp;
+            telegram.ready();
+            telegram.expand();
+            setTg(telegram);
+        } else {
+            console.warn('Telegram WebApp SDK not found');
+        }
     }, []);
 
     const onClose = useCallback(() => {

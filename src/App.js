@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LZString from 'lz-string';
 import useTelegram from './hooks/useTelegram';
 import './App.css';
 import MainScreen from './components/MainScreen';
@@ -13,9 +14,15 @@ function App() {
   // Загрузка заметок из облака
   useEffect(() => {
     if (!tg?.CloudStorage) return;
-    tg.CloudStorage.getItem('notes', (err, data) => {
-      if (!err && data) {
-        try { setNotes(JSON.parse(data)); } catch { }
+    tg.CloudStorage.getItem('notes', (err, stored) => {
+      if (err || !stored) return;
+      try {
+        // пытаемся разжать, иначе разбираем как JSON
+        const raw = LZString.decompressFromUTF16(stored);
+        setNotes(JSON.parse(raw || stored));
+      } catch {
+        // fallback на plain JSON
+        try { setNotes(JSON.parse(stored)); } catch { }
       }
     });
   }, [tg]);
@@ -37,7 +44,11 @@ function App() {
     }
     setNotes(newNotes);
     if (tg?.CloudStorage) {
-      tg.CloudStorage.setItem('notes', JSON.stringify(newNotes));
+      const raw = JSON.stringify(newNotes);
+      const compressed = LZString.compressToUTF16(raw);
+      tg.CloudStorage.setItem('notes', compressed, (err, ok) => {
+        if (err || !ok) console.warn('CloudStorage setItem error:', err);
+      });
     }
     setEditingIndex(null);
     setScreen('main');
@@ -46,7 +57,9 @@ function App() {
     const newNotes = notes.filter((_, i) => i !== index);
     setNotes(newNotes);
     if (tg?.CloudStorage) {
-      tg.CloudStorage.setItem('notes', JSON.stringify(newNotes));
+      const raw = JSON.stringify(newNotes);
+      const compressed = LZString.compressToUTF16(raw);
+      tg.CloudStorage.setItem('notes', compressed);
     }
   };
   const handleEdit = (index) => {

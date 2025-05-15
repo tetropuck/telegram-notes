@@ -46,7 +46,7 @@
 }
 
 .create-button {
-    z-index: 10;
+    transition: opacity 0.3s ease;
     position: fixed;
     bottom: 24px;
     right: 24px;
@@ -61,6 +61,11 @@
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
+.create-button.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .notes-list {
     position: absolute;
     top: 16px;
@@ -70,6 +75,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     touch-action: pan-y;
+    padding-bottom: 80px;
 }
 
 .note-card {
@@ -84,13 +90,14 @@
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .note-card.expanded {
     background-color: #f9f9f9;
-    transform: scale(1.02);
-    padding-right: 60px;
+    transform: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 24px 0;
 }
 
 .note-title {
@@ -101,6 +108,8 @@
     margin-top: 8px;
     font-size: 14px;
     color: #555;
+    /* сохраняем переводы строк и абзацы из сохранённого текста */
+    white-space: pre-wrap;
 }
 
 .note-menu {
@@ -215,4 +224,12 @@
 
 .delete-icon {
     filter: brightness(0);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+    color: #1976d2;
 }
