@@ -1,10 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CreateNoteScreen.css';
 
-const CreateNoteScreen = ({ onCancel, onSave }) => {
-    const [title, setTitle] = useState('');
-    const [text, setText] = useState('');
+const CreateNoteScreen = ({ onCancel, onSave, initialNote }) => {
+    const [title, setTitle] = useState(initialNote?.title || '');
+    const [text, setText] = useState(initialNote?.text || '');
     const titleRef = useRef(null);
+
+    useEffect(() => {
+        setTitle(initialNote?.title || '');
+        setText(initialNote?.text || '');
+    }, [initialNote]);
 
     useEffect(() => {
         titleRef.current?.focus();

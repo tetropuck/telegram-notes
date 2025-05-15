@@ -8,38 +8,50 @@ function App() {
   const { tg } = useTelegram();
   const [screen, setScreen] = useState('main');
   const [notes, setNotes] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
 
+  // Загрузка заметок из облака
   useEffect(() => {
-    if (!tg || !tg.CloudStorage) return;
+    if (!tg?.CloudStorage) return;
     tg.CloudStorage.getItem('notes', (err, data) => {
       if (!err && data) {
-        try {
-          setNotes(JSON.parse(data));
-        } catch (e) {
-          console.error('Ошибка парсинга сохранённых заметок', e);
-        }
+        try { setNotes(JSON.parse(data)); } catch { }
       }
     });
   }, [tg]);
 
-  const handleCreate = () => setScreen('create');
-  const handleCancel = () => setScreen('main');
-  const handleSave = (note) => {
-    const newNotes = [...notes, note];
-    setNotes(newNotes);
-    if (tg && tg.CloudStorage) {
-      tg.CloudStorage.setItem('notes', JSON.stringify(newNotes));
-    }
+  const handleCreate = () => {
+    setEditingIndex(null);
+    setScreen('create');
+  };
+  const handleCancel = () => {
+    setEditingIndex(null);
     setScreen('main');
   };
-
-  // удаление заметки по индексу
+  const handleSave = (note) => {
+    let newNotes;
+    if (editingIndex !== null) {
+      newNotes = notes.map((n, i) => i === editingIndex ? note : n);
+    } else {
+      newNotes = [...notes, note];
+    }
+    setNotes(newNotes);
+    if (tg?.CloudStorage) {
+      tg.CloudStorage.setItem('notes', JSON.stringify(newNotes));
+    }
+    setEditingIndex(null);
+    setScreen('main');
+  };
   const handleDelete = (index) => {
     const newNotes = notes.filter((_, i) => i !== index);
     setNotes(newNotes);
-    if (tg && tg.CloudStorage) {
+    if (tg?.CloudStorage) {
       tg.CloudStorage.setItem('notes', JSON.stringify(newNotes));
     }
+  };
+  const handleEdit = (index) => {
+    setEditingIndex(index);
+    setScreen('create');
   };
 
   return (
@@ -49,10 +61,15 @@ function App() {
           notes={notes}
           onCreate={handleCreate}
           onDelete={handleDelete}
+          onEdit={handleEdit}
         />
       )}
       {screen === 'create' && (
-        <CreateNoteScreen onCancel={handleCancel} onSave={handleSave} />
+        <CreateNoteScreen
+          onCancel={handleCancel}
+          onSave={handleSave}
+          initialNote={editingIndex !== null ? notes[editingIndex] : null}
+        />
       )}
     </>
   );
