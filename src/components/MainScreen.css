@@ -4,6 +4,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        "Noto Color Emoji", "Segoe UI Emoji", sans-serif;
 }
 
 .empty-state {
@@ -84,6 +87,7 @@
 .note-card.expanded {
     background-color: #f9f9f9;
     transform: scale(1.02);
+    padding-right: 48px;
 }
 
 .note-title {
@@ -120,6 +124,7 @@
 .delete-icon {
     margin-right: 4px;
     font-size: 16px;
+    filter: brightness(0);
 }
 
 .overlay {
@@ -183,4 +188,28 @@
 
 .menu-right {
     z-index: 1002;
+}
+
+/* Иконки редактирования и удаления для развернутой заметки */
+.note-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.action-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* при необходимости можно дополнительно стилизовать иконки */
+.edit-icon {
+    /* например, filter для тонировки */
+}
+
+.delete-icon {
+    filter: brightness(0);
 }

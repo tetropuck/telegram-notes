@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import ArrowIcon from '../assets/arrow.svg';
+import { ReactComponent as EditIcon } from '../assets/edit.svg';
+import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
 import './MainScreen.css';
+import useTelegram from '../hooks/useTelegram';
 
-const MainScreen = ({ notes, onCreate }) => {
+const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const { tg } = useTelegram();
 
   return (
     <div className="main-screen">
@@ -24,7 +28,27 @@ const MainScreen = ({ notes, onCreate }) => {
             >
               <div className="note-title">{note.title}</div>
               {expandedIndex === index && (
-                <div className="note-text">{note.text}</div>
+                <>
+                  <div className="note-text">{note.text}</div>
+                  <div className="note-actions">
+                    <EditIcon
+                      className="action-icon edit-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEdit(index);
+                      }}
+                    />
+                    <DeleteIcon
+                      className="action-icon delete-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        tg.showConfirm('Вы уверены, что хотите удалить заметку?', (ok) => {
+                          if (ok) onDelete(index);
+                        });
+                      }}
+                    />
+                  </div>
+                </>
               )}
             </div>
           ))}

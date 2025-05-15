@@ -15,6 +15,16 @@ const CreateNoteScreen = ({ onCancel, onSave, initialNote }) => {
         titleRef.current?.focus();
     }, []);
 
+    const handleBack = () => {
+        if (title.trim() || text.trim()) {
+            if (window.confirm('Выйти без сохранения?')) {
+                onCancel();
+            }
+        } else {
+            onCancel();
+        }
+    };
+
     const handleSave = () => {
         if (!title.trim()) return;
         onSave({ title: title.trim(), text });
@@ -23,7 +33,7 @@ const CreateNoteScreen = ({ onCancel, onSave, initialNote }) => {
     return (
         <div className="create-note-screen">
             <header className="cns-header">
-                <button className="back-button" onClick={onCancel}>←</button>
+                <button className="back-button" onClick={handleBack}>←</button>
                 <button
                     className="save-button"
                     onClick={handleSave}
