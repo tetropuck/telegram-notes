@@ -7,6 +7,7 @@ import useTelegram from '../hooks/useTelegram';
 
 const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [deselectPending, setDeselectPending] = useState(false);
   const { tg } = useTelegram();
 
   return (
@@ -24,7 +25,20 @@ const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
             <div
               key={index}
               className={`note-card${expandedIndex === index ? ' expanded' : ''}`}
-              onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+              onMouseDown={e => {
+                const sel = window.getSelection();
+                if (sel && sel.toString()) {
+                  sel.removeAllRanges();
+                  setDeselectPending(true);
+                }
+              }}
+              onClick={e => {
+                if (deselectPending) {
+                  setDeselectPending(false);
+                  return;
+                }
+                setExpandedIndex(expandedIndex === index ? null : index);
+              }}
             >
               <div className="note-title">{note.title}</div>
               {expandedIndex === index && (
