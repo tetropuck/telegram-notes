@@ -16,11 +16,17 @@ const CreateNoteScreen = ({ onCancel, onSave, initialNote }) => {
     }, []);
 
     const handleBack = () => {
-        if (title.trim() || text.trim()) {
-            if (window.confirm('Выйти без сохранения?')) {
-                onCancel();
-            }
-        } else {
+        // проверяем, были ли изменения в полях по сравнению с initialNote
+        const initialTitle = initialNote?.title?.trim() || '';
+        const initialText = initialNote?.text || '';
+        const currentTitle = title.trim();
+        const currentText = text;
+        const hasChanges = currentTitle !== initialTitle || currentText !== initialText;
+        if (!hasChanges) {
+            onCancel();
+            return;
+        }
+        if (window.confirm('Выйти без сохранения?')) {
             onCancel();
         }
     };
