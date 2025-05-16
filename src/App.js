@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import LZString from 'lz-string';
 import useTelegram from './hooks/useTelegram';
 import './App.css';
-import MainScreen from './components/MainScreen';
-import CreateNoteScreen from './components/CreateNoteScreen';
+
+// Ленивая загрузка экранов для уменьшения начального бандла
+const MainScreen = lazy(() => import('./components/MainScreen'));
+const CreateNoteScreen = lazy(() => import('./components/CreateNoteScreen'));
 
 function App() {
   const { tg } = useTelegram();
@@ -68,7 +70,7 @@ function App() {
   };
 
   return (
-    <>
+    <Suspense fallback={<div className="loading">Загрузка...</div>}>
       {screen === 'main' && (
         <MainScreen
           notes={notes}
@@ -84,7 +86,7 @@ function App() {
           initialNote={editingIndex !== null ? notes[editingIndex] : null}
         />
       )}
-    </>
+    </Suspense>
   );
 }
 
