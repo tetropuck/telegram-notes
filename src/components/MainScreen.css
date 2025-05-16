@@ -99,16 +99,16 @@
     margin: 24px 0;
 }
 
-.note-title {
-    font-weight: bold;
-}
-
 .note-text {
     margin-top: 8px;
     font-size: 14px;
     color: #555;
     /* сохраняем переводы строк и абзацы из сохранённого текста */
     white-space: pre-wrap;
+    /* разрешаем выделять и копировать текст заметки */
+    user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
 }
 
 .note-menu {
@@ -222,7 +222,7 @@
 }
 
 .delete-icon {
-    filter: brightness(0);
+    filter: brightness(0.8);
 }
 
 .back-button {
