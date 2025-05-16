@@ -26,6 +26,7 @@ const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
               key={index}
               className={`note-card${expandedIndex === index ? ' expanded' : ''}`}
               onMouseDown={e => {
+                if (e.target !== e.currentTarget) return;
                 const sel = window.getSelection();
                 if (sel && sel.toString()) {
                   sel.removeAllRanges();
@@ -43,7 +44,7 @@ const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
               <div className="note-title">{note.title}</div>
               {expandedIndex === index && (
                 <>
-                  <div className="note-text">{note.text}</div>
+                  <div className="note-text" dangerouslySetInnerHTML={{ __html: note.text }} />
                   <div className="note-actions">
                     <EditIcon
                       className="action-icon edit-icon"
