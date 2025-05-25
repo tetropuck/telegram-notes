@@ -62,6 +62,17 @@ function App() {
       tg.CloudStorage.setItem('notes', compressed);
     }
   };
+  const handlePin = (index) => {
+    const newNotes = notes.map((note, i) => i === index ? { ...note, pinned: !note.pinned } : note);
+    // reorder: pinned notes first
+    newNotes.sort((a, b) => (b.pinned === a.pinned ? 0 : b.pinned ? 1 : -1));
+    setNotes(newNotes);
+    if (tg?.CloudStorage) {
+      const raw = JSON.stringify(newNotes);
+      const compressed = LZString.compressToUTF16(raw);
+      tg.CloudStorage.setItem('notes', compressed);
+    }
+  };
   const handleEdit = (index) => {
     setEditingIndex(index);
     setScreen('create');
@@ -70,7 +81,7 @@ function App() {
   return (
     <>
       {screen === 'main' && (
-        <MainScreen notes={notes} onCreate={handleCreate} onDelete={handleDelete} onEdit={handleEdit} />
+        <MainScreen notes={notes} onCreate={handleCreate} onDelete={handleDelete} onEdit={handleEdit} onPin={handlePin} />
       )}
       {screen === 'create' && (
         <CreateNoteScreen onCancel={handleCancel} onSave={handleSave} initialNote={editingIndex !== null ? notes[editingIndex] : null} />

@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ArrowIcon from '../assets/arrow.svg';
 import { ReactComponent as EditIcon } from '../assets/edit.svg';
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
+import { ReactComponent as PinIcon } from '../assets/pin.svg';
+import { ReactComponent as PinnedIcon } from '../assets/pinned.svg';
 import './MainScreen.css';
 import useTelegram from '../hooks/useTelegram';
 
-const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
+const MainScreen = ({ notes, onCreate, onDelete, onEdit, onPin }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
+  useEffect(() => {
+    setExpandedIndex(null);
+  }, [notes]);
   const [deselectPending, setDeselectPending] = useState(false);
   const { tg } = useTelegram();
 
@@ -41,11 +46,35 @@ const MainScreen = ({ notes, onCreate, onDelete, onEdit }) => {
                 setExpandedIndex(expandedIndex === index ? null : index);
               }}
             >
-              <div className="note-title">{note.title}</div>
+              <div className="note-header">
+                <div className="note-title">{note.title}</div>
+                {/* Иконка в header: только для закреплённых и НЕ развернутых заметок */}
+                {note.pinned && expandedIndex !== index && (
+                  <PinnedIcon
+                    className="action-icon pin-icon"
+                    onMouseDown={e => e.stopPropagation()}
+                    onClick={e => { e.stopPropagation(); onPin(index); }}
+                  />
+                )}
+              </div>
               {expandedIndex === index && (
                 <>
                   <div className="note-text" dangerouslySetInnerHTML={{ __html: note.text }} />
                   <div className="note-actions">
+                    {/* Кнопка закрепления в расширенной заметке слева от редактирования */}
+                    {note.pinned ? (
+                      <PinnedIcon
+                        className="action-icon pin-icon"
+                        onMouseDown={e => e.stopPropagation()}
+                        onClick={e => { e.stopPropagation(); onPin(index); }}
+                      />
+                    ) : (
+                      <PinIcon
+                        className="action-icon pin-icon"
+                        onMouseDown={e => e.stopPropagation()}
+                        onClick={e => { e.stopPropagation(); onPin(index); }}
+                      />
+                    )}
                     <EditIcon
                       className="action-icon edit-icon"
                       onClick={(e) => {
