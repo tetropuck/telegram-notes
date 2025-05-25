@@ -62,8 +62,113 @@
     resize: none;
 }
 
+/* Placeholder для contentEditable */
+.text-input:empty:before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+    display: block;
+}
+
+/* Удалено правило скрытия плейсхолдера при фокусе, чтобы он оставался до ввода */
+
 .cns-header .back-button {
     font-size: 24px !important;
     line-height: 1;
     padding: 4px;
+}
+
+/* iOS-style hairline separator между кнопками */
+.toolbar-btn+.toolbar-btn {
+    border-left-style: solid;
+    border-left-width: 0.5px;
+    border-left-color: rgba(60, 60, 67, 0.29);
+}
+
+@media (prefers-color-scheme: dark) {
+    .toolbar-btn+.toolbar-btn {
+        border-left-color: rgba(84, 84, 88, 0.36);
+    }
+}
+
+/* Панель инструментов под шапкой */
+.toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #f2f2f2;
+    /* light mode keyboard color */
+    z-index: 1000;
+}
+
+@media (prefers-color-scheme: dark) {
+    .toolbar {
+        background: #2c2c2e;
+        /* dark mode keyboard color */
+        border-top-color: #3a3a3c;
+        border-bottom-color: #3a3a3c;
+    }
+}
+
+/* Кнопки тулбара */
+.toolbar-btn {
+    flex: 1;
+    padding: 8px 0;
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #1976d2;
+    position: relative;
+}
+
+.toolbar-btn:hover {
+    background: rgba(25, 118, 210, 0.1);
+}
+
+/* Убираем стиль фокуса на кнопках, чтобы они не подсвечивались при фокусе */
+.toolbar-btn:focus {
+    outline: none;
+    background: none;
+}
+
+/* Стили для кнопок форматирования */
+.bold-btn {
+    font-weight: bold;
+}
+
+.italic-btn {
+    font-style: italic;
+}
+
+.underline-btn {
+    text-decoration: underline;
+}
+
+/* Стили для списков в редакторе */
+.text-input ul {
+    margin: 0 0 0 16px;
+    padding: 0;
+}
+
+.text-input ul.bullet-list {
+    list-style-type: disc;
+}
+
+.text-input ul.dash-list {
+    list-style-type: none;
+}
+
+.text-input ul.dash-list li::before {
+    content: "- ";
+}
+
+.text-input ol {
+    margin: 0 0 0 16px;
+    padding: 0;
 }

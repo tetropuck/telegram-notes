@@ -111,6 +111,31 @@
     -ms-user-select: text;
 }
 
+/* Стили для списков в развернутой заметке */
+.note-text ul {
+    margin: 8px 0 0 16px;
+    padding: 0;
+}
+
+.note-text ul.bullet-list {
+    list-style-type: disc;
+}
+
+.note-text ul.dash-list {
+    list-style-type: none;
+}
+
+.note-text ul.dash-list li::before {
+    content: "- ";
+    margin-right: 4px;
+}
+
+.note-text ol {
+    margin: 8px 0 0 16px;
+    padding: 0;
+    list-style-type: decimal;
+}
+
 .note-menu {
     position: absolute;
     bottom: -40px;
