@@ -61,6 +61,14 @@ const CreateNoteScreen = ({ onCancel, onSave, initialNote }) => {
         setText(textRef.current.innerHTML);
     };
 
+    // При нажатии Enter в заголовке фокусируемся на поле текста
+    const handleTitleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            textRef.current.focus();
+        }
+    };
+
     const handleBack = () => {
         const initialTitle = initialNote?.title?.trim() || '';
         const initialText = initialNote?.text || '';
@@ -146,6 +154,7 @@ const CreateNoteScreen = ({ onCancel, onSave, initialNote }) => {
                     placeholder="Заголовок"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
+                    onKeyDown={handleTitleKeyDown}
                 />
                 <div
                     ref={textRef}
