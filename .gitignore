@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Игнорировать node_modules
+node_modules/
+
+# Дополнительные исключения
+.DS_Store
+.env
+dist
+*.log
