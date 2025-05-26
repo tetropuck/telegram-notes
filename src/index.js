@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Rollbar from "rollbar";
+
+const rollbar = new Rollbar({
+  accessToken: "a42ae17a449d400f9e8afb74d35fae07",
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
