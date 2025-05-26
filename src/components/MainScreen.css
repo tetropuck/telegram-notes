@@ -334,12 +334,6 @@
     color: #1976d2;
 }
 
-.double-break {
-    height: 2em;
-    /* Двойной отступ */
-    margin: 0;
-}
-
 .list-item {
     position: relative;
     padding-left: 24px;
