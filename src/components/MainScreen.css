@@ -123,29 +123,60 @@
     -ms-user-select: text;
 }
 
-/* Стили для списков в развернутой заметке */
-.note-text ul {
-    margin: 8px 0 0 16px;
+/* Общие стили для всех списков */
+.note-text ul,
+.note-text ol {
+    margin: 4px 0 0 0;
+    padding: 0 0 0 24px;
+}
+
+/* Нумерованный список */
+.note-text ol {
+    list-style-type: none;
+    counter-reset: list-counter;
+    margin: 4px 0 0 0;
     padding: 0;
 }
 
-.note-text ul.bullet-list {
-    list-style-type: disc;
+.note-text ol li {
+    position: relative;
+    counter-increment: list-counter;
+    margin-bottom: 4px;
+    padding-left: 24px;
 }
 
+.note-text ol li::before {
+    content: counter(list-counter) ".";
+    position: absolute;
+    left: 0;
+    color: #1976d2;
+    font-weight: bold;
+    width: 20px;
+}
+
+/* Маркированный список (точки) */
+.note-text ul.bullet-list {
+    list-style-type: none;
+}
+
+.note-text ul.bullet-list li::before {
+    content: "•";
+    color: #1976d2;
+    font-weight: bold;
+    display: inline-block;
+    width: 16px;
+    margin-left: -16px;
+}
+
+/* Список с тире */
 .note-text ul.dash-list {
     list-style-type: none;
 }
 
 .note-text ul.dash-list li::before {
-    content: "- ";
+    content: "— ";
+    color: #1976d2;
     margin-right: 4px;
-}
-
-.note-text ol {
-    margin: 8px 0 0 16px;
-    padding: 0;
-    list-style-type: decimal;
 }
 
 .note-menu {
@@ -301,4 +332,23 @@
     font-size: 50px;
     cursor: pointer;
     color: #1976d2;
+}
+
+.double-break {
+    height: 2em;
+    /* Двойной отступ */
+    margin: 0;
+}
+
+.list-item {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 4px;
+}
+
+.list-number {
+    position: absolute;
+    left: 0;
+    color: #1976d2;
+    font-weight: bold;
 }
