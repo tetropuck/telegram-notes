@@ -149,7 +149,7 @@
     content: counter(list-counter) ".";
     position: absolute;
     left: 0;
-    color: #1976d2;
+    color: #555;
     font-weight: bold;
     width: 20px;
 }
@@ -161,7 +161,7 @@
 
 .note-text ul.bullet-list li::before {
     content: "•";
-    color: #1976d2;
+    color: #555;
     font-weight: bold;
     display: inline-block;
     width: 16px;
@@ -175,7 +175,7 @@
 
 .note-text ul.dash-list li::before {
     content: "— ";
-    color: #1976d2;
+    color: #555;
     margin-right: 4px;
 }
 
